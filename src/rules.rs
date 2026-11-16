@@ -160,10 +160,7 @@ pub const RULES: &[Rule] = &[
     r("Dart/Flutter pub cache", Safe, "Re-downloaded on next pub get", &["~/.pub-cache"]).cmd("dart pub cache clean --force"),
     r("Browser test binaries (Playwright/Puppeteer/Cypress)", Safe, "Re-downloaded on next install",
       &["~/Library/Caches/ms-playwright", "~/.cache/ms-playwright", "~/.cache/puppeteer", "~/Library/Caches/Cypress", "~/.cache/Cypress"])
-        .options(&[
-          ("Playwright: remove all browsers it downloaded", "npx playwright uninstall --all"),
-          ("Cypress: empty the binary cache", "npx cypress cache clear"),
-        ]).expand(),
+        .expand(),
     r("Android emulators", Review, "Delete emulators you don't use (or Android Studio › Device Manager)", &["~/.android/avd"]).expand(),
     r("Android SDK system images", Review, "Remove images you don't use (or Android Studio › SDK Manager)",
       &["~/Library/Android/sdk/system-images/*", "~/Android/Sdk/system-images/*"]).expand(),
