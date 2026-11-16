@@ -144,7 +144,12 @@ pub const RULES: &[Rule] = &[
     r("Gradle caches", Safe, "Re-downloaded on next build", &["~/.gradle/caches", "~/.gradle/wrapper/dists", "~/.gradle/daemon"]).expand(),
     r("Maven repository", Safe, "Re-downloaded on next build", &["~/.m2/repository"]),
     r("Python package caches", Safe, "Re-downloaded when needed",
-      &["~/Library/Caches/pip", "~/.cache/pip", "~/.cache/uv", "~/Library/Caches/pypoetry", "~/.cache/pypoetry"]),
+      &["~/Library/Caches/pip", "~/.cache/pip", "~/.cache/uv", "~/Library/Caches/pypoetry", "~/.cache/pypoetry"])
+        .options(&[
+          ("pip: empty the whole cache", "pip cache purge"),
+          ("uv: remove only entries nothing uses anymore", "uv cache prune"),
+          ("uv: empty the whole cache", "uv cache clean"),
+        ]),
     r("Conda package cache", Safe, "Cached package tarballs",
       &["~/miniconda3/pkgs", "~/anaconda3/pkgs", "~/miniforge3/pkgs", "~/mambaforge/pkgs", "~/opt/anaconda3/pkgs",
         "~/opt/miniconda3/pkgs", "/opt/homebrew/Caskroom/miniconda/base/pkgs", "/opt/homebrew/Caskroom/miniforge/base/pkgs"])
@@ -155,7 +160,10 @@ pub const RULES: &[Rule] = &[
     r("Dart/Flutter pub cache", Safe, "Re-downloaded on next pub get", &["~/.pub-cache"]).cmd("dart pub cache clean --force"),
     r("Browser test binaries (Playwright/Puppeteer/Cypress)", Safe, "Re-downloaded on next install",
       &["~/Library/Caches/ms-playwright", "~/.cache/ms-playwright", "~/.cache/puppeteer", "~/Library/Caches/Cypress", "~/.cache/Cypress"])
-        .expand(),
+        .options(&[
+          ("Playwright: remove all browsers it downloaded", "npx playwright uninstall --all"),
+          ("Cypress: empty the binary cache", "npx cypress cache clear"),
+        ]).expand(),
     r("Android emulators", Review, "Delete emulators you don't use (or Android Studio › Device Manager)", &["~/.android/avd"]).expand(),
     r("Android SDK system images", Review, "Remove images you don't use (or Android Studio › SDK Manager)",
       &["~/Library/Android/sdk/system-images/*", "~/Android/Sdk/system-images/*"]).expand(),
